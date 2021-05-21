@@ -1,0 +1,32 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "${workspaceFolder}/inc/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            },
+            "includePath": [
+                "${workspaceFolder}",
+                "${workspaceFolder}/inc/**"
+            ],
+            "defines": [
+                //"_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            //"cStandard": "c11",
+            "cStandard": "gnu99",
+            "cppStandard": "c++14",
+            //"compilerPath": "clang",
+            "compilerPath": "/usr/bin/gcc",
+            //"intelliSenseMode": "linux-clang-x64"
+            "intelliSenseMode": "${default}"
+        }
+    ],
+    "version": 4
+}

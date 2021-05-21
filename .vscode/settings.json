@@ -1,0 +1,10 @@
+{
+    "code-runner.executorMap": {
+        //"python": "python3 /home/ylk6/Documents/Security/HW3/AES_block_cipher/JpegToPPM.py ../linux.jpeg ./",
+        "python": "python3 /home/ylk6/Documents/Security/HW3/AES_block_cipher/JpegToPPM.py ./linux.ppm ./test",
+        //"c": "cd $dir && gcc -std=gnu99 $fileName -I${workspaceFolder} -I${workspaceFolder}/Include -I/usr/include/python3.8 -lpython3.8 -o $fileNameWithoutExt&& $dir$fileNameWithoutExt ./linux.ppm ./ ECB",
+        //"c": "cd $dir && gcc -std=gnu99 $fileName -I/home/ylk6/Documents/Security/HW3/AES_block_cipher/inc/ -o $fileNameWithoutExt&& $dir$fileNameWithoutExt ./linux.jpeg ./ ECB",
+        "c": "cd /home/ylk6/Documents/Security/HW3/AES_block_cipher&& source ./.vscode/task.sh",
+        "cpp": "cd $dir && g++ -std=c++11 $fileName -I${workspaceFolder}/Include -o  $fileNameWithoutExt && $dir$fileNameWithoutExt"
+    }
+}

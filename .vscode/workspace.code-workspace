@@ -1,0 +1,21 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"string.h": "c",
+			"stdint.h": "c",
+			"python.h": "c",
+			"stdio.h": "c",
+			"main.h": "c",
+			"ctype.h": "c",
+			"unistd.h": "c",
+			"stdlib.h": "c",
+			"errno.h": "c",
+			"cstdio": "cpp"
+		}
+	}
+}
