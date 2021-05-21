@@ -20,6 +20,7 @@ pthread_t Sender;
 pthread_t Receiver;
 
 int send_cmd(char *cmd);
+int send_PixelKey(char R, char G, char B, char *key);
 int receive_cmd(char cmd[]);
 void *Sender_th(void *param);
 void *Receiver_th(void *param);
@@ -60,7 +61,7 @@ int AES_env(int test)
         if (InitPipe() == -1)
             return -1;
 
-        send_cmd("test,1234567890123456");
+        send_PixelKey('F', 'F', 'F', "12f4567890123456");
 
         char cmd[100];
         while (1)
@@ -74,8 +75,10 @@ int AES_env(int test)
             else
             {
                 printf("at c in thread get : %s\n", cmd);
+                break;
             }
         }
+
         CloseAESpyProcess();
         ClosePipe();
     }
@@ -173,6 +176,20 @@ int send_cmd(char *cmd)
 {
     fprintf(fd_w, "%s\n", cmd);
     fflush(fd_w);
+    return 0;
+}
+
+int send_PixelKey(char R, char G, char B, char *key)
+{
+    if (strlen(key) > 16 || strlen(key) == 0)
+    {
+        fprintf(stderr, "Error key length.\n");
+        return -1;
+    }
+
+    char cmd[21];
+    sprintf(cmd, "%c%c%c,%s", 0x46, 0x46, 0x46, key);
+    send_cmd(cmd);
     return 0;
 }
 

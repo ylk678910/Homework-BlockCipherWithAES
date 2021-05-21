@@ -3,17 +3,22 @@ import sys
 from Crypto.Cipher import AES
 import threading
 import time
+from Crypto.Util.Padding import pad, unpad
 
 kill_th = False
 ciphertext = ''
 
 
 def AESBlockCipher(one_block_text, key):
-    print("text = " + one_block_text)
-    print("key = " + key)
-    cipher = AES.new(key.encode('gb2312'), AES.MODE_ECB)
-    ciphert = cipher.encrypt(one_block_text.encode('gb2312'))
-    return ciphert.decode('utf-8')
+    cipher = AES.new(key, AES.MODE_ECB)
+
+    # zero padding
+    for t in range(16-len(one_block_text)):
+        one_block_text = one_block_text+b'\x00'
+
+    ciphert = cipher.encrypt(one_block_text)
+
+    return ciphert.hex()
 
 
 def Sender_th():
@@ -24,8 +29,9 @@ def Sender_th():
 
     while(kill_th == False):
         if(ciphertext != ''):
-            cmd = ciphertext + '\n'
+            cmd = ciphertext
             os.write(pipe_w, cmd.encode('gb2312'))
+            os.write(pipe_w, '\n'.encode('gb2312'))
             ciphertext = ''
         time.sleep(0.1)
     os.close(pipe_w)
@@ -37,19 +43,24 @@ def Receiver_th():
 
     while(kill_th == False):
         data = os.read(pipe_r, 1024)
-
         if len(data) == 0:
             # time.sleep(0.1)
             time.sleep(0)
         else:
-            cmd_l = data.decode('utf-8').split('\n')
+            cmd_l = data.split(b'\n')
             for cmd in cmd_l:
-                if("exit" == cmd):
-                    kill_th = True
-                elif(len(cmd) != 0):
-                    [plaintext, key] = cmd.split(',')
-                    #print("Py GET : " + cmd)
-                    ciphertext = AESBlockCipher(plaintext, key)
+                try:
+                    cmd_str = cmd.decode('utf-8')
+                    if("exit" == cmd_str):
+                        kill_th = True
+                    elif(len(cmd) != 0):
+                        [plaintext, key] = cmd.split(b',')
+                        ciphertext = AESBlockCipher(plaintext, key)
+                except:
+                    if(len(cmd) != 0):
+                        [plaintext, key] = cmd.split(b',')
+                        ciphertext = AESBlockCipher(plaintext, key)
+
     os.close(pipe_r)
 
 
